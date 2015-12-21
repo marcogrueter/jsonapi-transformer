@@ -75,9 +75,13 @@ class DataIncludedHelper
             $type = $copy[Serializer::CLASS_IDENTIFIER_KEY];
 
             if (\is_scalar($type)) {
-                foreach ($mappings[$type]->getIdProperties() as $propertyName) {
-                    unset($copy[$propertyName]);
+                if( isset($mappings[$type]) )
+                {
+                    foreach ($mappings[$type]->getIdProperties() as $propertyName) {
+                        unset($copy[$propertyName]);
+                    }
                 }
+
                 unset($copy[Serializer::CLASS_IDENTIFIER_KEY]);
             }
         }
@@ -118,7 +122,7 @@ class DataIncludedHelper
                                     ),
                             ],
                         ],
-                        $mappings[$type]->getRelationships()
+                        isset($mappings[$type]) ? $mappings[$type]->getRelationships() : []
                     );
 
                     continue;
